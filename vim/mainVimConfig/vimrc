@@ -76,7 +76,7 @@ set history=50 "历史记录50条
 filetype plugin indent on "打开文件类型检测
 ""set completeopt=longest,menu "关闭智能补全时的预览窗口
 "颜色方案
-""colorscheme bandit "desert颜色方案
+colorscheme Dev_Delight ""颜色方案
 
 "界面设置.
 set ruler "显示当前位置
@@ -91,76 +91,28 @@ set tabstop=2 "硬TAB
 set softtabstop=2 "软TAB
 set shiftwidth=2 "缩进空格数
 set expandtab "空格替换TAB
-"set smarttab "智能TAB
+set smarttab "智能TAB
 
 set tags=tags; "ctags
 set autochdir "ctags
 
-" TagList"
-let Tlist_Show_One_File=1
-let Tlist_Exit_OnlyWindow=1
+"set hightlight
+highlight Pmenu ctermbg=black
+highlight PmenuSel ctermbg=darkblue
+"hi Pmenu guibg=brown gui=bold
 
-" BufExplorer"
-"let g:bufExplorerDefaultHelp=0
-"let g:bufExplorerShowRelativePath=1
-"let g:bufExplorerSortBy='mru'
-"let g:bufExplorerSplitRight=0
-"let g:bufExplorerSplitVertical=1
-"let g:bufExplorerSplitVertSize = 30
-"autocmd BufWinEnter \[Buf\ List\] setl nonumber
 
-"" winManager setting"
-"let g:winManagerWindowLayout = "FileExplorer,BufExplorer|TagList"
-"let g:winManagerWidth = 30
-"let g:defaultExplorer = 0
-"nmap <C-W><C-F> :FirstExplorerWindow<cr>
-"nmap <C-W><C-B> :BottomExplorerWindow<cr>
-"nmap <silent> <leader>wm :WMToggle<cr>
-"nmap <silent> <leader>wu :wa<cr>:TlistUpdate<cr>:FirstExplorerWindow<cr>
-
-" lookupfile setting"
-"let g:LookupFile_MinPatLength = 2
-"let g:LookupFile_PreserveLastPattern = 0
-"let g:LookupFile_PreservePatternHistory = 1
-"let g:LookupFile_AlwaysAcceptFirst = 1
-"let g:LookupFile_AllowNewFiles = 0
-"if filereadable("./filenametags") 
-"let g:LookupFile_TagExpr = '"./filenametags"'
-"endif
-"nmap <silent> <leader>lk :LUTags<cr>
-"nmap <silent> <leader>ll :LUBufs<cr>
-"nmap <silent> <leader>lw :LUWalk<cr>
-
-" cscope setting"
-"set cscopequickfix=s-,c-,d-,i-,t-,e-
-"nmap <F6>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-"nmap <F6>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-"nmap <F6>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-"nmap <F6>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-"nmap <F6>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-"nmap <F6>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-"nmap <F6>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-"nmap <F6>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-
-" 代码折叠
+""""""""""""""""""""""""""""""""""""""""""""""
+""
+""====> Plugin
+""
+"""""""""""""""""""""""""""""""""""""""""""""
+""
+""代码折叠
+""
+""""""""""""""""""""""""""""""""""""""
 set foldmethod=syntax
 set foldlevel=100 " 启动 vim 时不要自动折叠代码
-
-" superTab
-"let g:SuperTabRetainCompletionType=2
-"let g:SuperTabDefaultCompletionType="<C-X><C-O>"
-
-" ctags_highlighting
-"let b:TypesFileRecurse = 1
-"let b:TypesFileDoNotGenerateTags = 1
-"let b:TypesFileIncludeLocals = 1
-"let b:TypesFileIncludeSynMatches =1
-"let b:TypesFileLanguages = ['c']
-
-" Fn 快捷键
-" F5 - LookUpFile, F6 - cscope
-"nnoremap <silent> <F7> :WMToggle<CR>
-"nnoremap <silent> <F8> :A<CR>
 
 """"""""""""""""
 """"""""" VIM 自动缩进
@@ -169,16 +121,19 @@ filetype indent on
 endif
 """""""""""""""
 
-"""""""
-""""在 Vim 中实现括号自动补全：
+"""""""""""""""""""""""""""""""""""""
+""
+""在 Vim 中实现括号自动补全:
+""
+""""""""""""""""""""""""""""""""""""
 :inoremap ( ()<ESC>i
 :inoremap ) <c-r>=ClosePair(')')<CR>
 :inoremap { {}<ESC>i
 :inoremap } <c-r>=ClosePair('}')<CR>
 :inoremap [ []<ESC>i
 :inoremap ] <c-r>=ClosePair(']')<CR>
-:inoremap < <><ESC>i
-:inoremap > <c-r>=ClosePair('>')<CR>
+":inoremap < <><ESC>i
+":inoremap > <c-r>=ClosePair('>')<CR>
 
 function ClosePair(char)
 if getline('.')[col('.') - 1] == a:char
@@ -202,18 +157,53 @@ endf
 " => taglist
 """"""""""""""""""""""""""""""""
 " taglist
-"let Tlist_Auto_Highlight_Tag = 1
+
+"nnoremap<silent><F3>:TlistToggle<CR><CR>
+set tags="~/tags"
+
+let Tlist_Auto_Highlight_Tag = 1
 "let Tlist_Auto_Open = 1
-"let Tlist_Auto_Update = 1
+let Tlist_Auto_Update = 1
+let Tlist_Show_One_File = 1
+let Tlist_Exit_OnlyWindow = 1
+let Tlist_WinWidth = 20
+let Tlist_Enable_Fold_Column = 0
 "let Tlist_Close_On_Select = 0
 "let Tlist_Compact_Format = 0
 "let Tlist_Display_Prototype = 0
 "let Tlist_Display_Tag_Scope = 1
 "let Tlist_Enable_Fold_Column = 0
-"let Tlist_Exit_OnlyWindow = 0
 "let Tlist_File_Fold_Auto_Close = 0
 "let Tlist_GainFocus_On_ToggleOpen = 1
 "let Tlist_Hightlight_Tag_On_BufEnter = 1
 "let Tlist_Inc_Winwidth = 0
 
 """"""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""
+""
+""Comments
+""document-------->
+""
+""ctrl-c : comment a single line
+""ctrl-x : un-comment a single line
+""shift-v: select multiple lines, then ctrl-c to comment the selected multiple
+""""line
+""shift-v: select multiple lines, then ctrl-x to un-comment the selected
+""""multiple line
+""
+""end----------->
+"""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""
+""
+""FuzzyFinder
+""
+""""""""""""""""""""""""""""""""""""
+"let mapleader = "\\"
+"map <leader>f :FufFile<CR>
+"map <leader>F :FufTaggedFile<CR>
+"map <leader>g :FufTag<CR>
+"map <leader>b :FufBuffer<CR>
+nnoremap ff :FufFile<CR>
+nnoremap fb :FufBuffer<CR>
