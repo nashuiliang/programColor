@@ -78,6 +78,7 @@ filetype plugin indent on "打开文件类型检测
 "颜色方案
 colorscheme Dev_Delight ""颜色方案
 
+
 "界面设置.
 set ruler "显示当前位置
 set number "显示行号
@@ -166,7 +167,7 @@ let Tlist_Auto_Highlight_Tag = 1
 let Tlist_Auto_Update = 1
 let Tlist_Show_One_File = 1
 let Tlist_Exit_OnlyWindow = 1
-let Tlist_WinWidth = 20
+"let Tlist_WinWidth = 20
 let Tlist_Enable_Fold_Column = 0
 "let Tlist_Close_On_Select = 0
 "let Tlist_Compact_Format = 0
