@@ -70,37 +70,19 @@ set incsearch
 "" 输入的命令显示出来，看的清楚些。
 set showcmd
 
-""设置每行字符个数
-""set textwidth=80
-
 set background=dark
 
 set history=50 "历史记录50条
 filetype plugin indent on "打开文件类型检测
-
-""""""""""""""""""""""""""""""""""""""""""""""
-"颜色方案
-"""""""""""""""""""""""""""""""""""""""
 ""set completeopt=longest,menu "关闭智能补全时的预览窗口
-""Dev_Delight
-""colorscheme Dev_Delight ""颜色方案
+"颜色方案
+colorscheme Dev_Delight ""颜色方案
 
-""
-colorscheme tango
-
-""""""""""""""""""""""""""""""""""""""
 
 "界面设置.
 set ruler "显示当前位置
 set number "显示行号
 "set nonumber "不显示行号
-
-filetype on
-
-""cursor line光亮光标行
-set cursorline
-""hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkblue guifg=white
-""hi CursorLine   cterm=NONE ctermbg=black ctermfg=white guibg=darkblue guifg=darkblue
 
 "格式设置.
 set autoindent "自动缩进
@@ -115,20 +97,6 @@ set smarttab "智能TAB
 set tags=tags; "ctags
 set autochdir "ctags
 
-""cmd height 1
-set cmdheight=1
-
-"" no backup
-set nobackup
-set laststatus=2    "显示状态栏 (默认值为 1, 无法显示状态栏)"
-""set showtabline=2   "显示tab标签
-""set tabline+=%f     "tab标签""
-
-"""去掉错误声音
-set vb t_vb="
-"设置状态栏
-""set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
-set statusline=%F%m%r%h%w\ [%Y]\ \[%04l,%04v][%p%%]\ [%L]
 "set hightlight
 highlight Pmenu ctermbg=black
 highlight PmenuSel ctermbg=darkblue
@@ -165,17 +133,15 @@ endif
 :inoremap } <c-r>=ClosePair('}')<CR>
 :inoremap [ []<ESC>i
 :inoremap ] <c-r>=ClosePair(']')<CR>
-inoremap " ""<ESC>i
-inoremap ' ''<ESC>i
 ":inoremap < <><ESC>i
 ":inoremap > <c-r>=ClosePair('>')<CR>
 
 function ClosePair(char)
-  if getline('.')[col('.') - 1] == a:char
-    return "\<Right>"
-  else
-    return a:char
-  endif
+if getline('.')[col('.') - 1] == a:char
+return "\<Right>"
+else
+return a:char
+endif
 endf
 """"""""
 
@@ -192,8 +158,8 @@ endf
 " => taglist
 """"""""""""""""""""""""""""""""
 " taglist
-""<F3> open TlistToggle
-nnoremap <silent><F3> :TlistToggle<CR><CR>
+
+"nnoremap<silent><F3>:TlistToggle<CR><CR>
 set tags="~/tags"
 
 let Tlist_Auto_Highlight_Tag = 1
@@ -242,18 +208,3 @@ let Tlist_Enable_Fold_Column = 0
 "map <leader>b :FufBuffer<CR>
 nnoremap ff :FufFile<CR>
 nnoremap fb :FufBuffer<CR>
-
-"""""""""""""""""""""""""""""""""""""""""
-""
-""=========== tab navigation like firefox =====  
-""
-""""""""""""""""""""""""""""""""""""""""
-""map <C-w> :tabclose<CR>  
-nmap <C-t> :browse tabnew<CR>  
-imap <C-t> <Esc>:browse tabnew<CR>  
-
-""""""""""""""""""""""""""""""""""""""
-""
-""===============complier file
-""
-""""""""""""""""""""""""""""""""""""""
