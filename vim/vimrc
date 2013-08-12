@@ -1,0 +1,554 @@
+" All system-wide defaults are set in $VIMRUNTIME/archlinux.vim (usually just
+" /usr/share/vim/vimfiles/archlinux.vim) and sourced by the call to :runtime
+" you can find below.  If you wish to change any of those settings, you should
+" do it in this file (/etc/vimrc), since archlinux.vim will be overwritten
+" everytime an upgrade of the vim packages is performed.  It is recommended to
+" make changes after sourcing archlinux.vim since it alters the value of the
+" 'compatible' option.
+
+" This line should not be removed as it ensures that various options are
+" properly set to work with the Vim-related packages.
+runtime! archlinux.vim
+
+" If you prefer the old-style vim functionalty, add 'runtime! vimrc_example.vim'
+" Or better yet, read /usr/share/vim/vim72/vimrc_example.vim or the vim manual
+" and configure vim to your own liking!
+
+au BufNewFile,BufRead *.html setf htmldjango
+
+set tabstop=2                " 设置tab键的宽度
+set shiftwidth=2             " 换行时行间交错使用4个空格
+set autoindent               " 自动对齐
+set backspace=2              " 设置退格键可用
+set cindent shiftwidth=2     " 自动缩进4空格
+set smartindent              " 智能自动缩进
+set ai!                      " 设置自动缩进
+set nu!                      " 显示行号
+set showmatch                " 显示括号配对情况
+set mouse=a                  " 启用鼠标
+set ruler                    " 右下角显示光标位置的状态行
+set incsearch                " 开启实时搜索功能
+set hlsearch                 " 开启高亮显示结果
+set nowrapscan               " 搜索到文件两端时不重新搜索
+set nocompatible             " 关闭兼容模式
+set vb t_vb=                 " 关闭提示音
+set cursorline              " 突出显示当前行
+set hidden                   " 允许在有未保存的修改时切换缓冲区
+set list                     " 显示Tab符，使用一高亮竖线代替
+set listchars=tab:\┆\ ,
+set autoread                 "设置当文件被改动时自动载入
+
+syntax enable                " 打开语法高亮
+syntax on                    " 开启文件类型侦测
+filetype on                  " 文件类型检测
+filetype indent on           " 针对不同的文件类型采用不同的缩进格式
+filetype plugin on           " 针对不同的文件类型加载对应的插件
+filetype plugin indent on    " 启用自动补全
+
+set writebackup              " 设置无备份文件
+set nobackup
+set autochdir                " 设定文件浏览器目录为当前目录
+""set nowrap                  " 设置不自动换行
+set foldmethod=syntax        " 选择代码折叠类型
+set foldlevel=100            " 禁止自动折叠
+
+set laststatus=2             " 开启状态栏信息
+set cmdheight=1              " 命令行的高度，默认为1，这里设为2
+
+" 每行超过80个的字符用下划线标示
+au BufRead,BufNewFile *.s,*.asm,*.h,*.c,*.cpp,*.cc,*.java,*.cs,*.erl,*.hs,*.sh,*.lua,*.pl,*.pm,*.php,*.py,*.rb,*.erb,*.vim,*.js,*.css,*.xml,*.html,*.xhtml 2match Underlined /.\%81v/
+
+" 设置编码
+set fenc=utf-8
+set encoding=utf-8
+set fileencodings=utf-8,gbk,cp936,latin-1
+
+""""""""""""""""""""""""""""""""""""""""
+""
+"" colorscheme
+""
+""""""""""""""""""""""""""""""""""""""""
+""colorscheme Dev_Delight
+colorscheme molokai
+
+""""""""""""""""""""""""""""""""""""""""
+
+
+""""""""""""""""""""""""""""""""""""""""
+""
+"" set hightlight
+""
+""""""""""""""""""""""""""""""""""""""""
+"set hightlight
+highlight Pmenu ctermbg=lightgrey
+highlight PmenuSel ctermbg=darkblue
+""hi Pmenu guibg=brown gui=bold
+
+"""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""
+""
+""在 Vim 中实现括号自动补全:
+""
+"""""""""""""""""""""""""""""""""""""""
+:inoremap ( ()<ESC>i
+:inoremap ) <c-r>=ClosePair(')')<CR>
+:inoremap { {}<ESC>i
+:inoremap } <c-r>=ClosePair('}')<CR>
+:inoremap [ []<ESC>i
+:inoremap ] <c-r>=ClosePair(']')<CR>
+inoremap " ""<ESC>i
+inoremap ' ''<ESC>i
+":inoremap < <><ESC>i
+":inoremap > <c-r>=ClosePair('>')<CR>
+
+function ClosePair(char)
+  if getline('.')[col('.') - 1] == a:char
+    return "\<Right>"
+  else
+    return a:char
+  endif
+endf
+"""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""
+""
+"" bundle plugin
+""
+"""""""""""""""""""""""""""""""""""""""
+" :undleList          - list configured bundles
+" " :BundleInstall(!)    - install(update) bundles
+" " :BundleSearch(!) foo - search(or refresh cache first) for foo
+" " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+" "
+""""""""""""""""""""
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+"""""""""""""""""""""""""""""""""""""""
+""
+"" tool
+""
+"""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""
+" let Vundle manage Vundle
+Bundle 'gmarik/vundle'
+
+""""""""""""""""""""
+Bundle 'L9'
+
+""""""""""""""""""""
+Bundle 'FuzzyFinder'
+"" configure
+""let mapleader = "f"
+""map <leader>f :FufFile<CR>
+""map <leader>b :FufBuffer<CR>
+"map <leader>F :FufTaggedFile<CR>
+"map <leader>g :FufTag<CR>
+nnoremap ff :FufFile<CR>
+nnoremap fb :FufBuffer<CR>
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'taglist.vim'
+"" configure
+set tags="~/tags"
+let Tlist_Show_One_File=1                    " 只显示当前文件的tags
+let Tlist_Auto_Highlight_Tag = 1
+let Tlist_File_Fold_Auto_Close=1             " 自动折叠
+let Tlist_Auto_Update = 1
+let Tlist_Show_One_File = 1
+let Tlist_Exit_OnlyWindow=1                  " 如果Taglist窗口是最后一个窗口则退出Vim
+let Tlist_Enable_Fold_Column = 0
+""let Tlist_Auto_Open = 1
+""let Tlist_WinWidth = 20
+""let Tlist_Close_On_Select = 0
+""let Tlist_Compact_Format = 0
+""let Tlist_Display_Prototype = 0
+""let Tlist_Display_Tag_Scope = 1
+""let Tlist_Enable_Fold_Column = 0
+""let Tlist_File_Fold_Auto_Close = 0
+""let Tlist_GainFocus_On_ToggleOpen = 1
+""let Tlist_Hightlight_Tag_On_BufEnter = 1
+""let Tlist_Inc_Winwidth = 0
+
+"" configure key
+nnoremap fl :Tlist<CR>
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'https://github.com/majutsushi/tagbar.git'
+"" configure
+let g:tagbar_left=1
+let g:tagbar_width=30
+let g:tagbar_autofocus=1
+"" configure key
+nnoremap fg :TagbarToggle<CR>
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'scrooloose/nerdtree'
+"" table of contents
+"" configure
+"" configure key
+nmap ft :NERDTree<CR>
+""""""""""""""""""""
+""""""""""""""""""""
+""Bundle 'closetag.vim'
+"" web close tag
+""configure
+"":let b:closetag_html_style=1
+"":source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
+""configure key
+""C-_ " closetag
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'comments.vim'
+"" comment
+""configure key
+""C-c " note
+""C-x " remove note
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'SuperTab'
+"" tab key auto complete
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'scrooloose/syntastic'
+"" 多语言语法检查
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'tpope/vim-fugitive'
+"" 在 Vim 里快捷的使用 Git
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'TaskList.vim'
+"" 一个 quicklist 来显示标注有 TODO: 的行
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'https://github.com/kien/rainbow_parentheses.vim.git'
+"" better parenthess
+"" configure
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'bronson/vim-trailing-whitespace'
+"" last space marks read
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'Lokaltog/vim-easymotion'
+"" research
+"" configure
+let g:EasyMotion_leader_key='t'
+"" tt: search
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-repeat'
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'ZenCoding.vim'
+""""""""""""""""""""
+
+""""""""""""""""""""
+""Bundle 'SirVer/ultisnips'
+""let g:UltiSnipsUsePythonVersion = 2
+""let g:UltiSnipsExpandTrigger='<c-tab>'
+""let g:UltiSnipsJumpForwardTrigger='<c-tab>'
+""""""""""""""""""""
+
+""""""""""""""""""""
+""Bundle 'Yggdroot/indentLine'
+""let g:indentLine_noConcealCursor=1
+""let g:indentLine_color_term = 239
+""let g:indentLine_char='┆'
+""let g:indentLine_char='¦'
+""""""""""""""""""""
+
+""""""""""""""""""""
+""Bundle 'nathanaelkane/vim-indent-guides'
+"" configure
+""hi IndentGuidesOdd ctermbg=black
+""hi IndentGuidesEven ctermbg=darkgrey
+""let g:indent_guides_start_level=1
+""let g:indent_guides_guide_size=1
+""au VimEnter * IndentGuidesEnable
+""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+""
+"" end tool
+""
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+""
+"" language
+""
+"""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""
+"""" ==> Ruby
+""""""""""""""""""""
+Bundle 'tpope/vim-endwise'
+" 自动输入 end
+Bundle 'vim-ruby/vim-ruby'
+" ruby 支持
+""""""""""""""""""""
+
+""""""""""""""""""""
+"""" ==> php
+""""""""""""""""""""
+Bundle 'php.vim'
+""""""""""""""""""""
+
+""""""""""""""""""""
+"""" ==> c++
+""""""""""""""""""""
+"" c/c++
+""Bundle 'c.vim'
+""""""""""""""""""""
+
+""""""""""""""""""""
+"""" ==> coffeeScript
+""""""""""""""""""""
+Bundle 'kchmck/vim-coffee-script'
+""configure
+au BufRead,BufNewFile *.coffee setlocal ft=coffee
+autocmd BufWritePost *.coffee silent CoffeeMake! -b | cwindow
+""au BufWritePost *.coffee silent CoffeeMake!
+""""""""""""""""""""
+
+""""""""""""""""""""
+"""" ==> html
+""""""""""""""""""""
+Bundle 'mattn/emmet-vim'
+"" configure
+let g:user_emmet_leader_key='<C-y>'
+""""""""""""""""""""
+
+""""""""""""""""""""
+"""" ==> markdown
+""""""""""""""""""""
+Bundle 'plasticboy/vim-markdown'
+""""""""""""""""""""
+
+""""""""""""""""""""
+"""" ==> javascript
+""""""""""""""""""""
+Bundle 'JavaScript-syntax'
+Bundle 'pangloss/vim-javascript'
+Bundle 'nono/jquery.vim'
+""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+""
+"" end language
+""
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+""
+"" others
+""
+"""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""
+"" power line
+Bundle 'https://github.com/Lokaltog/vim-powerline.git'
+""""""""""""""""""""
+
+""""""""""""""""""""
+" 标点对齐
+""Bundle 'godlygeek/tabular'
+""""""""""""""""""""
+
+""""""""""""""""""""
+""Bundle "spolu/dwm.vim"
+" Vim 的平铺窗口管理
+""""""""""""""""""""
+
+
+""""""""""""""""""""
+""Bundle 'tango.vim'
+"" tango syntax
+""""""""""""""""""""
+
+"""""""""""""""""""""
+Bundle 'Tabular'
+"" => mark
+"""""""""""""""""""""
+
+"""""""""""""""""""""
+" Language
+" 提供 JSON 的语法高亮
+Bundle 'JSON.vim'
+"""""""""""""""""""""
+"""""""""""""""""""""
+Bundle 'thiderman/nginx-vim-syntax'
+Bundle 'nginx.vim'
+" nginx 语法高亮
+"""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+""
+"" end others
+""
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+""
+"" common command
+""
+"""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""
+imap jj <ESC>:w<CR>li
+"" jj   保存文件并留在插入模式 [插入模式]
+"""""""""""""""""""""
+
+"""""""""""""""""""""
+map ww <ESC>:wq<CR>
+"" ww 保存文件并退出
+"""""""""""""""""""""
+
+"""""""""""""""""""""
+map ee <ESC>:q!<CR>
+""  保存文件并退出
+"""""""""""""""""""""
+
+"""""""""""""""""""""
+imap kk <ESC>l
+"" kk  返回Normal模式 [插入模式]
+"""""""""""""""""""""
+
+"""""""""""""""""""""
+imap <c-h> <ESC>^i
+imap <c-l> <ESC>$a
+" Ctrl + l            将光标移到当前行的行尾
+" Ctrl + h            将光标移到当前行的行head
+"""""""""""""""""""""
+
+"""""""""""""""""""""
+imap <c-i> <BACKSPACE>
+"""""""""""""""""""""
+
+" TxtBrowser          高亮TXT文本文件
+au BufRead,BufNewFile *.txt setlocal ft=txt
+
+
+
+
+
+
+
+""""""""""""""""""" ======= 编译 && 运行 ======= "
+""""""""""""""""""""""
+" 编译源文件
+func! CompileCode()
+    exec "w"
+    if &filetype == "c"
+        exec "!gcc -Wall -std=c99 %<.c -o %<"
+    elseif &filetype == "cpp"
+        exec "!g++ -Wall -std=c++98 %<.cpp -o %<"
+    elseif &filetype == "java"
+        exec "!javac %<.java"
+    elseif &filetype == "haskell"
+        exec "!runghc %"
+    elseif &filetype == "lua"
+        exec "!lua %<.lua"
+    elseif &filetype == "perl"
+        exec "!perl %<.pl"
+    elseif &filetype == "python"
+        exec "!python %<.py"
+    elseif &filetype == "ruby"
+        exec "!ruby %<.rb"
+    endif
+endfunc
+""exec "!ghc --make %<.hs -o %<"
+
+" 运行可执行文件
+func! RunCode()
+    exec "w"
+    if &filetype == "c" || &filetype == "cpp" || &filetype == "haskell"
+        exec "! time ./%<"
+    elseif &filetype == "java"
+        exec "!java %<"
+    elseif &filetype == "lua"
+        exec "!lua %<.lua"
+    elseif &filetype == "perl"
+        exec "!perl %<.pl"
+    elseif &filetype == "python"
+        exec "!python %<.py"
+    elseif &filetype == "ruby"
+        exec "!ruby %<.rb"
+    elseif &filetype == "php"
+        exec "!php %<.php"
+    endif
+endfunc
+
+" Ctrl + C 一键保存、编译
+""map <c-c> :call CompileCode()<CR>
+""imap <c-c> <ESC>:call CompileCode()<CR>
+""vmap <c-c> <ESC>:call CompileCode()<CR>
+
+" Ctrl + R 一键保存、运行
+map <F5> :call RunCode()<CR>
+""imap <c-x> <ESC>:call RunCode()<CR>
+""vmap <c-x> <ESC>:call RunCode()<CR>
+
+
+"powerline{
+set guifont=PowerlineSymbols\ for\ Powerline
+set nocompatible
+set t_Co=256
+set fillchars+=stl:\ ,stlnc:\
+let g:Powerline_cache_enabled = 1
+set laststatus=2   " Always show the statusline
+let g:Powerline_dividers_override = ['>>', '>', '<<', '<']
+""let g:Powerline_dividers_override = ['▶', '▸', '▸', '▸']
+let g:Powerline_symbols_override = {
+    \ 'BRANCH': [0x2213],
+    \ 'LINE': '',
+    \ }
+""let g:Powerline_symbols = 'fancy'
+"}
+""let g:Powerline_cache_enabled = 1
+""let g:Powerline_cache_file='~/.vim/bundle/powerline/Powerline.cache'
+""set laststatus=2   " Always show the statusline
+
