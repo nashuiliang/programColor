@@ -13,7 +13,7 @@ runtime! archlinux.vim
 " If you prefer the old-style vim functionalty, add 'runtime! vimrc_example.vim'
 " Or better yet, read /usr/share/vim/vim72/vimrc_example.vim or the vim manual
 " and configure vim to your own liking!
-au BufNewFile,BufRead *.html setf htmldjango
+""au BufNewFile,BufRead *.html setf htmldjango
 
 set expandtab                " space replace tab
 set tabstop=2                " 设置tab键的宽度
@@ -185,7 +185,7 @@ let Tlist_Enable_Fold_Column = 0
 ""let Tlist_Inc_Winwidth = 0
 
 "" configure key
-nnoremap fl :Tlist<CR>
+""nnoremap f :Tlist<CR>
 """"""""""""""""""""
 
 """"""""""""""""""""
@@ -195,7 +195,8 @@ let g:tagbar_left=1
 let g:tagbar_width=30
 let g:tagbar_autofocus=1
 "" configure key
-nnoremap fg :TagbarToggle<CR>
+""nnoremap fl :TagbarToggle<CR>
+nnoremap f; :TagbarToggle<CR>
 """"""""""""""""""""
 
 """"""""""""""""""""
@@ -235,6 +236,7 @@ Bundle 'comments.vim'
 
 """"""""""""""""""""
 Bundle 'SuperTab'
+let g:SuperTabRetainCompletionType=2
 "" tab key auto complete
 """"""""""""""""""""
 
@@ -302,18 +304,11 @@ Bundle 'tpope/vim-repeat'
 """"""""""""""""""""
 
 """"""""""""""""""""
-Bundle 'ZenCoding.vim'
-""""""""""""""""""""
-
-""""""""""""""""""""
-""Bundle 'https://github.com/SirVer/ultisnips.git'
-""let g:UltiSnipsUsePythonVersion = 2
-""let g:UltiSnipsExpandTrigger="<tab>"
-""let g:UltiSnipsJumpForwardTrigger="<tab>"
-""""""""""""""""""""
-
-""""""""""""""""""""
 Bundle 'msanders/snipmate.vim'
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'mattn/calendar-vim'
 """"""""""""""""""""
 
 """"""""""""""""""""
@@ -353,7 +348,6 @@ let g:indentLine_char='┆'
 """" ==> python
 """"""""""""""""""""
 ""Bundle 'vim-scripts/pydoc.vim'
-Bundle 'vim-scripts/pyflakes.vim'
 "" check syntax
 """"""""""""""""""""
 
@@ -489,13 +483,19 @@ map ee <ESC>:q!<CR>
 """""""""""""""""""""
 
 """""""""""""""""""""
+map er <ESC>:w<CR>
+""  保存文件并退出
+"""""""""""""""""""""
+
+"""""""""""""""""""""
 imap kk <ESC>l
 "" kk  返回Normal模式 [插入模式]
 """""""""""""""""""""
 
 """""""""""""""""""""
-imap <c-h> <ESC>^i
-imap <c-l> <ESC>$a
+inoremap <c-h> <ESC>^i
+inoremap <C-@> <ESC>la
+inoremap <c-l> <ESC>$a
 " Ctrl + l            将光标移到当前行的行尾
 " Ctrl + h            将光标移到当前行的行head
 """""""""""""""""""""
@@ -505,10 +505,21 @@ imap <c-i> <BACKSPACE>
 """""""""""""""""""""
 
 """""""""""""""""""""
-map <c-p> :tabnext<CR>
+""map <c-p> :tabnext<CR>
 map <c-l> :tabprevious<CR>
 "" tab previous 保存文件并退出
 """""""""""""""""""""
+
+"" view select world
+nmap <space> viw
+vmap <space> iw
+
+"" insert mode dd
+imap <c-d> <esc>dd
+
+let mapleader = "\\"
+:noremap <leader>ev :vsplit $MYVIMRC<cr>
+:noremap <leader>sv :source $MYVIMRC<cr>
 
 " TxtBrowser          高亮TXT文本文件
 au BufRead,BufNewFile *.txt setlocal ft=txt
@@ -567,7 +578,7 @@ func! RunCode()
 endfunc
 
 " Ctrl + C 一键保存、编译
-""map <c-c> :call CompileCode()<CR>
+map <F6> :call CompileCode()<CR>
 ""imap <c-c> <ESC>:call CompileCode()<CR>
 ""vmap <c-c> <ESC>:call CompileCode()<CR>
 
