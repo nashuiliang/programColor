@@ -32,7 +32,7 @@ set hlsearch                 " 开启高亮显示结果
 set nowrapscan               " 搜索到文件两端时不重新搜索
 set nocompatible             " 关闭兼容模式
 set vb t_vb=                 " 关闭提示音
-set cursorline              " 突出显示当前行
+set cursorline               " 突出显示当前行
 set hidden                   " 允许在有未保存的修改时切换缓冲区
 ""set list                     " 显示Tab符，使用一高亮竖线代替
 ""set listchars=tab:\┆\ ,
@@ -63,6 +63,8 @@ set cmdheight=1              " 命令行的高度，默认为1，这里设为2
 " 每行超过80个的字符用下划线标示
 au BufRead,BufNewFile *.s,*.asm,*.h,*.c,*.cpp,*.cc,*.java,*.cs,*.erl,*.hs,*.sh,*.lua,*.pl,*.pm,*.php,*.py,*.rb,*.erb,*.vim,*.js,*.css,*.xml,*.html,*.xhtml 2match Underlined /.\%81v/
 
+au BufRead,BufNewFile *.txt setlocal ft=txt
+au BufRead,BufNewFile *.less setlocal ft=less
 " 设置编码
 set fenc=utf-8
 set encoding=utf-8
@@ -74,12 +76,8 @@ set fileencodings=utf-8,gbk,cp936,latin-1
 ""
 """"""""""""""""""""""""""""""""""""""""
 ""colorscheme Dev_Delight
-""colorscheme ir_black
 colorscheme molokai
-""colorscheme noctu
-""colorscheme null
-""colorscheme herald
-""colorscheme jellybeans
+""colorscheme railscasts
 
 """"""""""""""""""""""""""""""""""""""""
 
@@ -96,33 +94,6 @@ highlight PmenuSel ctermbg=darkblue
 
 """""""""""""""""""""""""""""""""""""""
 
-
-"""""""""""""""""""""""""""""""""""""""
-""
-""在 Vim 中实现括号自动补全:
-""
-"""""""""""""""""""""""""""""""""""""""
-:inoremap ( ()<ESC>i
-:inoremap ) <c-r>=ClosePair(')')<CR>
-:inoremap { {}<ESC>i
-:inoremap } <c-r>=ClosePair('}')<CR>
-:inoremap [ []<ESC>i
-:inoremap ] <c-r>=ClosePair(']')<CR>
-inoremap " ""<ESC>i
-inoremap ' ''<ESC>i
-":inoremap < <><ESC>i
-":inoremap > <c-r>=ClosePair('>')<CR>
-
-function ClosePair(char)
-  if getline('.')[col('.') - 1] == a:char
-    return "\<Right>"
-  else
-    return a:char
-  endif
-endf
-"""""""""""""""""""""""""""""""""""""""
-
-
 """""""""""""""""""""""""""""""""""""""
 ""
 "" bundle plugin
@@ -137,17 +108,14 @@ endf
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-"""""""""""""""""""""""""""""""""""""""
-""
-"" tool
-""
-"""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""
-" let Vundle manage Vundle
 Bundle 'gmarik/vundle'
+" let Vundle manage Vundle
+""""""""""""""""""""
 
 """"""""""""""""""""
 Bundle 'L9'
+""""""""""""""""""""
 
 """"""""""""""""""""
 Bundle 'FuzzyFinder'
@@ -162,34 +130,34 @@ nnoremap fb :FufBuffer<CR>
 """"""""""""""""""""
 
 """"""""""""""""""""
-Bundle 'taglist.vim'
+""Bundle 'taglist.vim'
 "" configure
-set tags="~/tags"
-let Tlist_Show_One_File=1                    " 只显示当前文件的tags
-let Tlist_Auto_Highlight_Tag = 1
-let Tlist_File_Fold_Auto_Close=1             " 自动折叠
-let Tlist_Auto_Update = 1
-let Tlist_Show_One_File = 1
-let Tlist_Exit_OnlyWindow=1                  " 如果Taglist窗口是最后一个窗口则退出Vim
-let Tlist_Enable_Fold_Column = 0
-""let Tlist_Auto_Open = 1
-""let Tlist_WinWidth = 20
-""let Tlist_Close_On_Select = 0
-""let Tlist_Compact_Format = 0
-""let Tlist_Display_Prototype = 0
-""let Tlist_Display_Tag_Scope = 1
-""let Tlist_Enable_Fold_Column = 0
-""let Tlist_File_Fold_Auto_Close = 0
-""let Tlist_GainFocus_On_ToggleOpen = 1
-""let Tlist_Hightlight_Tag_On_BufEnter = 1
-""let Tlist_Inc_Winwidth = 0
+""set tags="~/tags"
+"" let Tlist_Show_One_File=1                    " 只显示当前文件的tags
+"" let Tlist_Auto_Highlight_Tag = 1
+"" let Tlist_File_Fold_Auto_Close=1             " 自动折叠
+"" let Tlist_Auto_Update = 1
+"" let Tlist_Show_One_File = 1
+"" let Tlist_Exit_OnlyWindow=1                  " 如果Taglist窗口是最后一个窗口则退出Vim
+"" let Tlist_Enable_Fold_Column = 0
+""""""let Tlist_Auto_Open = 1
+""""""let Tlist_WinWidth = 20
+""""""let Tlist_Close_On_Select = 0
+""""""let Tlist_Compact_Format = 0
+""""let Tlist_Display_Prototype = 0
+""""let Tlist_Display_Tag_Scope = 1
+""""let Tlist_Enable_Fold_Column = 0
+""""let Tlist_File_Fold_Auto_Close = 0
+""""let Tlist_GainFocus_On_ToggleOpen = 1
+""""let Tlist_Hightlight_Tag_On_BufEnter = 1
+""""let Tlist_Inc_Winwidth = 0
 
 "" configure key
 ""nnoremap f :Tlist<CR>
 """"""""""""""""""""
 
 """"""""""""""""""""
-Bundle 'https://github.com/majutsushi/tagbar.git'
+Bundle 'majutsushi/tagbar.git'
 "" configure
 let g:tagbar_left=1
 let g:tagbar_width=30
@@ -200,11 +168,15 @@ nnoremap f; :TagbarToggle<CR>
 """"""""""""""""""""
 
 """"""""""""""""""""
-""Bundle 'scrooloose/nerdtree'
+Bundle 'scrooloose/nerdtree'
 "" table of contents
 "" configure
 "" configure key
-""nmap ft :NERDTree<CR>
+nmap ft :NERDTree<CR>
+""""""""""""""""""""
+
+""""""""""""""""""""
+Bundle 'vim-scripts/sql.vim--Stinson'
 """"""""""""""""""""
 
 """"""""""""""""""""
@@ -226,17 +198,18 @@ Bundle 'comments.vim'
 """"""""""""""""""""
 
 """"""""""""""""""""
-""Bundle 'Shougo/neocomplcache.vim'
-""let g:acp_enableAtStartup = 0
-""let g:neocomplcache_enable_at_startup = 1
-""let g:neocomplcache_enable_smart_case = 1
-""let g:neocomplcache_min_syntax_length = 3
-"" tab key auto complete
+Bundle 'Shougo/neocomplcache.vim'
+source /usr/share/vim/vimfiles/neocomplcache/neocomplcache.conf
+""
 """"""""""""""""""""
 
 """"""""""""""""""""
-Bundle 'SuperTab'
-let g:SuperTabRetainCompletionType=2
+Bundle 'Shougo/vimshell.vim'
+""""""""""""""""""""
+
+""""""""""""""""""""
+"Bundle 'SuperTab'
+"let g:SuperTabRetainCompletionType=2
 "" tab key auto complete
 """"""""""""""""""""
 
@@ -246,17 +219,12 @@ Bundle 'scrooloose/syntastic'
 """"""""""""""""""""
 
 """"""""""""""""""""
-""Bundle 'tpope/vim-fugitive'
-"" 在 Vim 里快捷的使用 Git
-""""""""""""""""""""
-
-""""""""""""""""""""
-Bundle 'TaskList.vim'
+""Bundle 'TaskList.vim'
 "" 一个 quicklist 来显示标注有 TODO: 的行
 """"""""""""""""""""
 
 """"""""""""""""""""
-Bundle 'https://github.com/kien/rainbow_parentheses.vim.git'
+Bundle 'kien/rainbow_parentheses.vim.git'
 "" better parenthess
 "" configure
 let g:rbpt_colorpairs = [
@@ -299,56 +267,35 @@ let g:EasyMotion_leader_key='t'
 """"""""""""""""""""
 
 """"""""""""""""""""
+Bundle 'vim-scripts/matchit.zip'
+"" % match
+""""""""""""""""""""
+
+""""""""""""""""""""
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
+"" configure
+""快速给词加环绕符号,例如引号
 """"""""""""""""""""
 
 """"""""""""""""""""
 Bundle 'msanders/snipmate.vim'
+""configure
+""快速插入自定义的代码片段
 """"""""""""""""""""
 
 """"""""""""""""""""
-Bundle 'mattn/calendar-vim'
+Bundle 'Raimondi/delimitMate'
+""configure
+""输入引号,括号时,自动补全
 """"""""""""""""""""
-
-""""""""""""""""""""
-""Bundle 'nathanaelkane/vim-indent-guides'
-""""""""""""""""""""
-
 """"""""""""""""""""
 Bundle 'Yggdroot/indentLine'
 let g:indentLine_noConcealCursor=1
 ""let g:indentLine_color_term = 239
 let g:indentLine_char='┆'
 ""let g:indentLine_char='¦'
-""""""""""""""""""""
-
-""""""""""""""""""""
-""Bundle 'nathanaelkane/vim-indent-guides'
-"" configure
-""hi IndentGuidesOdd ctermbg=black
-""hi IndentGuidesEven ctermbg=darkgrey
-""let g:indent_guides_start_level=1
-""let g:indent_guides_guide_size=1
-""au VimEnter * IndentGuidesEnable
-""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""
-""
-"" end tool
-""
-"""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""
-""
-"" language
-""
-"""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""
-"""" ==> python
-""""""""""""""""""""
-""Bundle 'vim-scripts/pydoc.vim'
-"" check syntax
+"" 缩进用'┆'
 """"""""""""""""""""
 
 """"""""""""""""""""
@@ -357,6 +304,7 @@ let g:indentLine_char='┆'
 Bundle 'tpope/vim-endwise'
 " 自动输入 end
 Bundle 'vim-ruby/vim-ruby'
+"Bundle 'mileszs/apidock.vim'
 " ruby 支持
 """"""""""""""""""""
 
@@ -364,6 +312,12 @@ Bundle 'vim-ruby/vim-ruby'
 """" ==> php
 """"""""""""""""""""
 Bundle 'php.vim'
+""""""""""""""""""""
+
+""""""""""""""""""""
+"""" ==> css less
+""""""""""""""""""""
+Bundle 'KohPoll/vim-less'
 """"""""""""""""""""
 
 """"""""""""""""""""
@@ -384,6 +338,14 @@ autocmd BufWritePost *.coffee silent CoffeeMake! -b | cwindow
 """"""""""""""""""""
 
 """"""""""""""""""""
+"""" ==> css
+""""""""""""""""""""
+Bundle 'skammer/vim-css-color'
+"" configure
+let g:cssColorVimDoNotMessMyUpdatetime = 1
+""""""""""""""""""""
+
+""""""""""""""""""""
 """" ==> html
 """"""""""""""""""""
 Bundle 'mattn/emmet-vim'
@@ -395,142 +357,75 @@ let g:user_emmet_leader_key='<C-y>'
 """" ==> markdown
 """"""""""""""""""""
 Bundle 'plasticboy/vim-markdown'
+"" configure
+"" markdown语法,编辑md文件
 """"""""""""""""""""
 
 """"""""""""""""""""
 """" ==> javascript
 """"""""""""""""""""
 Bundle 'JavaScript-syntax'
-Bundle 'pangloss/vim-javascript'
 Bundle 'nono/jquery.vim'
 """"""""""""""""""""
 
-"""""""""""""""""""""""""""""""""""""""
-""
-"" end language
-""
-"""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""
-""
-"" others
-""
-"""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""
 "" power line
 Bundle 'Lokaltog/vim-powerline.git'
 """"""""""""""""""""
 
-""""""""""""""""""""
-" 标点对齐
-""Bundle 'godlygeek/tabular'
-""""""""""""""""""""
-
-""""""""""""""""""""
-""Bundle "spolu/dwm.vim"
-" Vim 的平铺窗口管理
-""""""""""""""""""""
-
-
-""""""""""""""""""""
-""Bundle 'tango.vim'
-"" tango syntax
-""""""""""""""""""""
-
 """""""""""""""""""""
-Bundle 'Tabular'
-"" => mark
-"""""""""""""""""""""
-
-"""""""""""""""""""""
-" Language
-" 提供 JSON 的语法高亮
 Bundle 'JSON.vim'
+""configure
+" 提供 JSON 的语法高亮
 """""""""""""""""""""
+
 """""""""""""""""""""
 Bundle 'thiderman/nginx-vim-syntax'
 Bundle 'nginx.vim'
 " nginx 语法高亮
 """""""""""""""""""""
 
-"""""""""""""""""""""""""""""""""""""""
-""
-"" end others
-""
-"""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""
-""
-"" common command
-""
-"""""""""""""""""""""""""""""""""""""""
-
 """""""""""""""""""""
 imap jj <ESC>:w<CR>li
 "" jj   保存文件并留在插入模式 [插入模式]
-"""""""""""""""""""""
 
-"""""""""""""""""""""
 map ew <ESC>:wq<CR>
 "" ww 保存文件并退出
-"""""""""""""""""""""
 
-"""""""""""""""""""""
 map ee <ESC>:q!<CR>
 ""  保存文件并退出
-"""""""""""""""""""""
 
-"""""""""""""""""""""
 map er <ESC>:w<CR>
 ""  保存文件并退出
-"""""""""""""""""""""
 
-"""""""""""""""""""""
 imap kk <ESC>l
 "" kk  返回Normal模式 [插入模式]
-"""""""""""""""""""""
 
-"""""""""""""""""""""
-inoremap <c-h> <ESC>^i
+inoremap <C-h> <ESC>xi
+inoremap <C-b> <ESC>i
+inoremap <C-f> <ESC>la
+inoremap <C-a> <ESC>^i
+inoremap <C-l> <ESC>$a
+inoremap <C-u> <ESC>cc
+inoremap <C-j> <ESC>o
+
 inoremap <C-@> <ESC>la
-inoremap <c-l> <ESC>$a
 " Ctrl + l            将光标移到当前行的行尾
 " Ctrl + h            将光标移到当前行的行head
-"""""""""""""""""""""
 
-"""""""""""""""""""""
-imap <c-i> <BACKSPACE>
-"""""""""""""""""""""
-
-"""""""""""""""""""""
-""map <c-p> :tabnext<CR>
-map <c-l> :tabprevious<CR>
-"" tab previous 保存文件并退出
-"""""""""""""""""""""
+"inoremap <C-i> <BACKSPACE>
+noremap <C-l> :tabprevious<CR>
 
 "" view select world
-nmap <space> viw
-vmap <space> iw
+nnoremap <space> viw
+vnoremap <space> iw
 
-"" insert mode dd
-imap <c-d> <esc>dd
+noremap fl <C-w>w
+
 
 let mapleader = "\\"
 :noremap <leader>ev :vsplit $MYVIMRC<cr>
 :noremap <leader>sv :source $MYVIMRC<cr>
-
-" TxtBrowser          高亮TXT文本文件
-au BufRead,BufNewFile *.txt setlocal ft=txt
-
-"" 空格折叠
-""set foldenable
-""set foldmethod=manual
-""nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
-
-
-
 
 """"""""""""""""""" ======= 编译 && 运行 ======= "
 """"""""""""""""""""""
@@ -586,7 +481,3 @@ map <F6> :call CompileCode()<CR>
 map <F5> :call RunCode()<CR>
 ""imap <c-x> <ESC>:call RunCode()<CR>
 ""vmap <c-x> <ESC>:call RunCode()<CR>
-
-
-""let g:Powerline_cache_file='~/.vim/bundle/powerline/Powerline.cache'
-""set laststatus=2   " Always show the statusline
