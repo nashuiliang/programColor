@@ -20,7 +20,7 @@ set autochdir
 "  UI
 "  ---------------------------------------------------------------------------
 
-set title
+"set title
 set scrolloff=1
 set autoindent
 set smartindent
@@ -30,8 +30,8 @@ set hidden
 set wildmenu
 set wildmode=list:longest
 set visualbell
-set cursorline
-set cursorcolumn
+"set cursorline
+"set cursorcolumn
 set ttyfast
 set ruler
 set backspace=indent,eol,start
@@ -49,13 +49,11 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 
-set nowrap
+set nowrap "" no wrap
 set textwidth=79
 set formatoptions=n
 
 " Searching / moving
-"nnoremap / /\v
-"vnoremap / /\v
 set ignorecase
 set smartcase
 set incsearch
@@ -65,6 +63,24 @@ set hlsearch
 nmap <space> /
 " search (backwards)
 map <c-space> ?
+
+" Switch between buffers
+noremap <tab> :bn<CR>
+noremap <S-tab> :bp<CR>
+" close buffer
+nmap <leader>d :bd<CR>
+" close all buffers
+nmap <leader>D :bufdo bd<CR>
+
+" Go to home and end using capitalized directions
+noremap H 0
+noremap L $
+
+" Speed up scrolling of the viewport slightly
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
+
+noremap Y y$
 
 set vb t_vb=                 " 关闭提示音
 set noerrorbells
@@ -76,13 +92,17 @@ set fenc=utf-8
 set encoding=utf-8
 set fileencodings=utf-8,gbk,cp936,latin-1
 
-
-" 每行超过80个的字符用下划线标示
-"au BufRead,BufNewFile *.s,*.asm,*.h,*.c,*.cpp,*.cc,*.java,*.cs,*.erl,*.hs,*.sh,*.lua,*.pl,*.pm,*.php,*.py,*.rb,*.erb,*.vim,*.js,*.css,*.xml,*.html,*.xhtml 2match Underlined /.\%81v/
-
-"colorscheme Dev_Delight
+colorscheme Dev_Delight
+"colorscheme elflord
 "colorscheme molokai
-colorscheme railscasts
+"colorscheme railscasts
+"colorscheme null
+
+set t_Co=256
+
+"" color set
+"hi CursorLine ctermfg=NONE ctermbg=NONE cterm=underline guifg=NONE guibg=#2e373b gui=NONE
+"hi CursorColumn ctermfg=NONE ctermbg=23 cterm=NONE guifg=NONE guibg=#2e373b gui=NONE
 
 "  ---------------------------------------------------------------------------
 "  Bundle
@@ -92,26 +112,40 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'L9'
+
 Bundle 'FuzzyFinder'
 nnoremap ff :FufFile<CR>
 nnoremap fb :FufBuffer<CR>
+
+Bundle 'Lokaltog/vim-easymotion'
+let g:EasyMotion_leader_key = 't'
 
 Bundle 'majutsushi/tagbar.git'
 let g:tagbar_left=1
 let g:tagbar_width=30
 let g:tagbar_autofocus=1
-nnoremap f; :TagbarToggle<CR>
+nnoremap f; :TagbarToggle<cr>
 
 Bundle 'vim-scripts/sql.vim--Stinson'
 Bundle 'comments.vim'
-Bundle 'Shougo/vimshell.vim'
 
 Bundle 'SuperTab'
 let g:SuperTabRetainCompletionType=2
 
-Bundle 'scrooloose/syntastic'
+"Bundle 'Shougo/neocomplcache.vim'
+"source /usr/share/vim/vimfiles/neocomplcache/neocomplcache.conf
 
-Bundle 'kien/rainbow_parentheses.vim.git'
+Bundle 'vim-scripts/bufexplorer.zip'
+noremap <silent> <CR> :BufExplorer<CR>
+
+Bundle 'scrooloose/syntastic'
+let g:syntastic_error_symbol='>>'
+let g:syntastic_warning_symbol='>'
+let g:syntastic_check_on_open=1
+let g:syntastic_enable_highlighting = 0
+highlight SyntasticErrorSign guifg=white guibg=black
+
+Bundle 'kien/rainbow_parentheses.vim'
 let g:rbpt_colorpairs = [
     \ ['brown',       'RoyalBlue3'],
     \ ['Darkblue',    'SeaGreen3'],
@@ -130,6 +164,7 @@ let g:rbpt_colorpairs = [
     \ ['darkred',     'DarkOrchid3'],
     \ ['red',         'firebrick3'],
     \ ]
+
 let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle = 0
 au VimEnter * RainbowParenthesesToggle
@@ -150,55 +185,79 @@ let g:indentLine_noConcealCursor=1
 ""let g:indentLine_color_term = 239
 let g:indentLine_char='┆'
 
+Bundle 'Shougo/vimshell.vim'
+
 Bundle 'tpope/vim-endwise'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'php.vim'
-Bundle 'mattn/emmet-vim'
-let g:user_emmet_leader_key='<C-y>'
+
+Bundle 'kevinw/pyflakes-vim'
+Bundle 'hdima/python-syntax'
 
 Bundle 'plasticboy/vim-markdown'
+let g:vim_markdown_folding_disabled=1
 
-Bundle 'JavaScript-syntax'
+Bundle "pangloss/vim-javascript"
+let g:html_indent_inctags = "html,body,head,tbody"
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
 
-Bundle 'Lokaltog/vim-powerline.git'
+Bundle 'nono/jquery.vim'
+
+"Bundle 'Pydiction'
+"let g:pydiction_location = '/home/chuangwang/.vim/bundle/Pydiction/complete-dict'
+"let g:pydiction_menu_height = 20
+
+Bundle 'jnwhiteh/vim-golang'
+au BufRead,BufNewFile *.go setlocal ft=go
+
+"Bundle 'bling/vim-airline'
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+
+Bundle 'itchyny/lightline.vim'
+
+"Bundle 'Lokaltog/vim-powerline.git'
+"let g:Powerline_symbols = 'fancy'
+"let g:Powerline_symbols = 'unicode'
 
 Bundle 'thiderman/nginx-vim-syntax'
 
+Bundle 'Glench/Vim-Jinja2-Syntax'
+
+Bundle 'sjl/vitality.vim'
+Bundle 'vim-scripts/Conque-Shell'
+
+Bundle 'sjl/gundo.vim'
+nnoremap <leader>h :GundoToggle<CR>"
+
 Bundle 'kchmck/vim-coffee-script'
 au BufRead,BufNewFile *.coffee setlocal ft=coffee
-autocmd BufWritePost *.coffee silent CoffeeMake! -b | cwindow
+"autocmd BufWritePost *.coffee silent CoffeeMake! -b | cwindow
 ""au BufWritePost *.coffee silent CoffeeMake!
 
-filetype plugin indent on
-
 """""""""""""""""""""
-map <down> :bn<CR>
+"设置标记一列的背景颜色和数字一行颜色一致
+hi! link SignColumn   LineNr
+hi! link ShowMarksHLl DiffAdd
+hi! link ShowMarksHLu DiffChange
 
+filetype plugin indent on
 imap jj <ESC>:w!<CR>l
-"" jj   保存文件并留在插入模式 [插入模式]
-
 map ew <ESC>:wq<CR>
-"" ww 保存文件并退出
-
 map ee <ESC>:q!<CR>
-""  退出
-
 map er <ESC>:w<CR>
-""  保存文件并退出
-
 imap kk <ESC>l
-"" kk  返回Normal模式 [插入模式]
 
 inoremap <C-a> <ESC>^i
 inoremap <C-l> <ESC>$a
 inoremap <C-u> <ESC>cc
-
 inoremap <C-@> <ESC>la
-
 noremap <C-l> :tabprevious<CR>
-
-"" view select world
-nnoremap <space> viw
-vnoremap <space> iw
-
 noremap fl <C-w>w
+
+"" compile
+source /usr/share/vim/vimfiles/compilecode/compile.conf
+
+set shell=/bin/sh
