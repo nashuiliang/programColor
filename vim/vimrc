@@ -1,7 +1,7 @@
-"  ---------------------------------------------------------------------------
+set shell=/bin/sh
+
 "  General
 "  ---------------------------------------------------------------------------
-runtime! archlinux.vim
 
 syntax enable
 syntax on
@@ -20,7 +20,7 @@ set autochdir
 "  UI
 "  ---------------------------------------------------------------------------
 
-"set title
+set title
 set scrolloff=1
 set autoindent
 set smartindent
@@ -30,13 +30,15 @@ set hidden
 set wildmenu
 set wildmode=list:longest
 set visualbell
-"set cursorline
+set cursorline
 "set cursorcolumn
 set ttyfast
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
 set number
+set fillchars+=stl:\ ,stlnc:\
+"set clipboard=unnamedplus
 "set relativenumber
 "set undofile
 
@@ -44,14 +46,17 @@ set number
 "  Text Formatting
 "  ---------------------------------------------------------------------------
 
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set nocompatible
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set expandtab
+set shiftround
 
 set nowrap "" no wrap
-set textwidth=79
+set textwidth=99
 set formatoptions=n
+set colorcolumn=100
 
 " Searching / moving
 set ignorecase
@@ -62,25 +67,25 @@ set hlsearch
 " search (forwards)
 nmap <space> /
 " search (backwards)
-map <c-space> ?
+map <C-space> ?
 
 " Switch between buffers
 noremap <tab> :bn<CR>
 noremap <S-tab> :bp<CR>
 " close buffer
-nmap <leader>d :bd<CR>
+nnoremap <leader>d :bd<CR>
 " close all buffers
-nmap <leader>D :bufdo bd<CR>
+nnoremap <leader>D :bufdo bd<CR>
 
 " Go to home and end using capitalized directions
-noremap H 0
-noremap L $
+nnoremap H 0
+nnoremap L $
 
 " Speed up scrolling of the viewport slightly
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
 
-noremap Y y$
+nnoremap Y y$
 
 set vb t_vb=                 " 关闭提示音
 set noerrorbells
@@ -92,21 +97,33 @@ set fenc=utf-8
 set encoding=utf-8
 set fileencodings=utf-8,gbk,cp936,latin-1
 
+set t_ut=
 set t_Co=256
 
-"syntax enable
+"set background=light
 "set background=dark
-"let g:solarized_termcolors=256
-"colorscheme solarized
+"colorscheme molokai
+colorscheme gruvbox
+set background=dark
+"let g:rehash256 = 1
+"let g:molokai_original = 1
 
-"colorscheme Dev_Delight
-"colorscheme solarized
-"colorscheme elflord
-colorscheme molokai
-"colorscheme null
+" solarized options
+"if !has('gui_running')
+"   let g:solarized_diffmode="high"
+"   let g:solarized_termcolors = &t_Co
+"   let g:solarized_termtrans = 1
+"   let g:solarized_visibility =  "low"
+"   set background=dark
+"   colorscheme solarized
+"endif
+"colorscheme smyck
 
+"colorscheme badwolf
+"colorscheme base16-atelierheath
 
 "" color set
+hi CursorLine cterm=underline
 "hi CursorLine ctermfg=NONE ctermbg=NONE cterm=underline guifg=NONE guibg=#2e373b gui=NONE
 "hi CursorColumn ctermfg=NONE ctermbg=23 cterm=NONE guifg=NONE guibg=#2e373b gui=NONE
 
@@ -119,12 +136,20 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'L9'
 
-Bundle 'FuzzyFinder'
-nnoremap ff :FufFile<CR>
-nnoremap fb :FufBuffer<CR>
-
-Bundle 'Lokaltog/vim-easymotion'
-let g:EasyMotion_leader_key = 't'
+Bundle 'terryma/vim-expand-region'
+" Default settings. (NOTE: Remove comments in dictionary before sourcing)
+let g:expand_region_text_objects = {
+            \ 'iw'  :0,
+            \ 'iW'  :0,
+            \ 'i"'  :0,
+            \ 'i''' :0,
+            \ 'i]'  :1,
+            \ 'ib'  :1,
+            \ 'iB'  :1,
+            \ 'il'  :0,
+            \ 'ip'  :0,
+            \ 'ie'  :0,
+            \ }
 
 Bundle 'majutsushi/tagbar.git'
 let g:tagbar_left=1
@@ -132,14 +157,10 @@ let g:tagbar_width=30
 let g:tagbar_autofocus=1
 nnoremap f; :TagbarToggle<cr>
 
-Bundle 'vim-scripts/sql.vim--Stinson'
 Bundle 'comments.vim'
 
 Bundle 'SuperTab'
 let g:SuperTabRetainCompletionType=2
-
-"Bundle 'Shougo/neocomplcache.vim'
-"source /usr/share/vim/vimfiles/neocomplcache/neocomplcache.conf
 
 Bundle 'vim-scripts/bufexplorer.zip'
 noremap <silent> <CR> :BufExplorer<CR>
@@ -150,6 +171,10 @@ let g:syntastic_warning_symbol='>'
 let g:syntastic_check_on_open=1
 let g:syntastic_enable_highlighting = 0
 highlight SyntasticErrorSign ctermfg=white ctermbg=black
+
+"" python checker
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_python_flake8_args='--ignore=E501'
 
 Bundle 'kien/rainbow_parentheses.vim'
 let g:rbpt_colorpairs = [
@@ -183,7 +208,7 @@ Bundle 'bronson/vim-trailing-whitespace'
 Bundle 'vim-scripts/matchit.zip'
 "" % match
 
-Bundle 'msanders/snipmate.vim'
+"Bundle 'msanders/snipmate.vim'
 Bundle 'Raimondi/delimitMate'
 
 Bundle 'Yggdroot/indentLine'
@@ -191,77 +216,88 @@ let g:indentLine_noConcealCursor=1
 ""let g:indentLine_color_term = 239
 let g:indentLine_char='┆'
 
-Bundle 'Shougo/vimshell.vim'
-
 Bundle 'tpope/vim-endwise'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'php.vim'
+
+"Bundle 'fatih/vim-go'
+"let g:go_highlight_functions = 1
+"let g:go_highlight_methods = 1
+"let g:go_highlight_structs = 1
+"let g:go_highlight_operators = 1
+"let g:go_highlight_build_constraints = 1
+"au BufRead,BufNewFile *.go set filetype=go
+
 Bundle 'vim-perl/vim-perl'
 
-Bundle 'kevinw/pyflakes-vim'
-Bundle 'hdima/python-syntax'
-
+Bundle 'godlygeek/tabular'
 Bundle 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 
+Bundle "scrooloose/nerdtree"
+nnoremap fn :NERDTree<CR>
+
 Bundle "pangloss/vim-javascript"
-let g:html_indent_inctags = "html,body,head,tbody"
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
+let g:javascript_enable_domhtmlcss = 1
+let g:javascript_conceal_function   = "ƒ"
+let g:javascript_conceal_null       = "ø"
+let g:javascript_conceal_this       = "@"
+let g:javascript_conceal_return     = "⇚"
+let g:javascript_conceal_undefined  = "¿"
+let g:javascript_conceal_NaN        = "ℕ"
+let g:javascript_conceal_prototype  = "¶"
+let g:javascript_conceal_static     = "•"
+let g:javascript_conceal_super      = "Ω"
 
-Bundle 'nono/jquery.vim'
+Bundle 'hynek/vim-python-pep8-indent'
 
-"Bundle 'Pydiction'
-"let g:pydiction_location = '/home/chuangwang/.vim/bundle/Pydiction/complete-dict'
-"let g:pydiction_menu_height = 20
+Bundle "kien/ctrlp.vim"
+let g:ctrlp_map = "ff"
+let g:ctrlp_cmd = "CtrlP"
+"let g:ctrlp_by_filename = 1
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:10'
+let g:ctrlp_max_files = 0
+let g:ctrlp_working_path_mode = 'r'
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v(([\/]\.(git|hg|svn))|(eggs|node_modules))$',
+    \ 'file': '\v\.(exe|so|dll|pyc)$',
+    \ }
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+      \ --ignore .git
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore .DS_Store
+      \ --ignore .exe
+      \ --ignore .so
+      \ --ignore .dll
+      \ --ignore .pyc
+      \ --ignore eggs
+      \ --ignore node_modules
+      \ -g ""'
 
-"Bundle 'bling/vim-airline'
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#left_sep = ' '
-"let g:airline#extensions#tabline#left_alt_sep = '|'
+nnoremap fg :CtrlPMRUFiles<CR>
 
-Bundle 'itchyny/lightline.vim'
+Bundle "bling/vim-airline"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
-"Bundle 'Lokaltog/vim-powerline.git'
-"let g:Powerline_symbols = 'fancy'
-"let g:Powerline_symbols = 'unicode'
+Bundle "vitalk/vim-simple-todo"
 
-Bundle 'thiderman/nginx-vim-syntax'
+Bundle "elzr/vim-json"
 
-Bundle 'Glench/Vim-Jinja2-Syntax'
+""""
+"" file au
+au BufRead,BufNewFile *.asm set filetype=nasm
 
-Bundle 'sjl/vitality.vim'
-Bundle 'vim-scripts/Conque-Shell'
-
-Bundle 'sjl/gundo.vim'
-nnoremap <leader>h :GundoToggle<CR>"
-
-Bundle 'kchmck/vim-coffee-script'
-au BufRead,BufNewFile *.coffee setlocal ft=coffee
-"autocmd BufWritePost *.coffee silent CoffeeMake! -b | cwindow
-au BufWritePost *.coffee silent make!
-
-"""""""""""""""""""""
-"设置标记一列的背景颜色和数字一行颜色一致
-hi! link SignColumn   LineNr
-hi! link ShowMarksHLl DiffAdd
-hi! link ShowMarksHLu DiffChange
-
-filetype plugin indent on
-imap jj <ESC>:w!<CR>l
+imap kk <ESC>l
 map ew <ESC>:wq<CR>
 map ee <ESC>:q!<CR>
-map er <ESC>:w<CR>
-imap kk <ESC>l
 
 inoremap <C-l> <ESC>$a
 inoremap <C-o> <ESC>o
-inoremap <C-u> <ESC>cc
 inoremap <C-@> <ESC>la
 noremap <C-l> :tabprevious<CR>
 noremap fl <C-w>w
-
-"" compile
-source /usr/share/vim/vimfiles/compilecode/compile.conf
-
-set shell=/bin/sh
+inoremap <C-i> <tab>
+vnoremap <space> y/<C-R>"<CR>
