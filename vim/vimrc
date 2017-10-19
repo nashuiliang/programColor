@@ -301,3 +301,5 @@ noremap <C-l> :tabprevious<CR>
 noremap fl <C-w>w
 inoremap <C-i> <tab>
 vnoremap <space> y/<C-R>"<CR>
+" virtual m: search and replace word
+vnoremap m :,$s/<C-R><C-W>//gc<left><left><left> 
